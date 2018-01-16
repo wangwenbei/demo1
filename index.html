@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html, body{
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .mask {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            animation: op 3s infinite linear;
+        }
+
+        .mask img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+        }
+        .container{
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            perspective: 2000px;
+            z-index: 1;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .item{
+            width: 100%;
+            height: 100%;
+            list-style: none;
+            transform-style: preserve-3d;
+            animation: move 8s infinite linear both;
+            transform-origin: 100px 100px -100px;
+        }
+        .item li{
+            position: absolute;
+            width: 196px;
+            height: 196px;
+            line-height: 196px;
+            border: 2px solid #000;
+            left: 0;
+            top: 0;
+            background: rgba(152,251,51,.6);
+            font-size: 40px;
+            text-align: center;
+
+        }
+        .item li:nth-child(1){
+            top: -200px;
+            transform-origin: bottom;
+            transform: rotateX(90deg);
+        }
+        .item li:nth-child(2){
+            top: 200px;
+            transform-origin: top;
+            transform: rotateX(-90deg);
+        }
+        .item li:nth-child(3){
+            left: -200px;
+            transform-origin: right;
+            transform: rotateY(-90deg);
+        }
+        .item li:nth-child(4){
+            left: 200px;
+            transform-origin: left;
+            transform: rotateY(90deg);
+        }
+        .item li:nth-child(5){
+            transform: translateZ(-200px);
+        }
+        .item li:nth-child(6){
+            transform: translateZ(0px);
+        }
+        @-webkit-keyframes move {
+            0%{
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+            100%{
+                transform: rotateX(360deg) rotateY(360deg);
+            }
+        }
+        @keyframes move {
+            0%{
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+            25% {
+                transform: rotateY(-180deg);
+            }
+            50% {
+                transform: rotateY(0deg);
+            }
+            75% {
+                transform: rotateX(-180deg);
+            }
+            100%{
+                transform: rotateX(360deg) rotateY(360deg);
+            }
+        }
+        li img {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<audio src="./Chenparty.mp3" loop autoplay preload="auto"></audio>
+<div id="mask" class="mask pc">
+    <img style="opacity: 1" src="./pc/a.jpg" alt="">
+    <img src="./pc/b.jpg" alt="">
+    <img src="./pc/c.jpg" alt="">
+    <img src="./pc/d.jpg" alt="">
+</div>
+<div class="mask mobile">
+    <img style="opacity: 1" src="./mobile/1.jpg" alt="">
+    <img src="./mobile/2.jpg" alt="">
+    <img src="./mobile/3.jpg" alt="">
+    <img src="./mobile/4.jpg" alt="">
+</div>
+<div class="container">
+    <ul class="item">
+        <li style="background: url(./IMG_1663.JPG) no-repeat; background-size: cover"></li>
+        <li style="background: url(./IMG_1679.JPG) no-repeat; background-size: cover"></li>
+        <li style="background: url(./IMG_1683.JPG) no-repeat; background-size: cover"></li>
+        <li style="background: url(./IMG_2008.JPG) no-repeat; background-size: cover"></li>
+        <li style="background: url(./IMG_2015.JPG) no-repeat; background-size: cover"></li>
+        <li style="background: url(./IMG_2011.JPG) no-repeat; background-size: cover"></li>
+    </ul>
+</div>
+
+<script src="./jquery-1.11.3.min.js"></script>
+<script>
+    let dWidth = document.documentElement.clientWidth  || document.body.clientWidth;
+    if (parseInt(dWidth) > 750) {
+        document.querySelector('.pc').style.display = 'block';
+        document.body.removeChild(document.querySelector('.mobile'));
+    } else {
+        document.querySelector('.mobile').style.display = 'block';
+        document.body.removeChild(document.querySelector('.pc'));
+    }
+    // let urlArr = ['./a.jpg', './b.jpg', './c.jpg', './d.jpg'];
+    let index = 0;
+    let mask = document.querySelector('.mask').querySelectorAll('img');
+    //mask.style.background = `url(${urlArr[index]}) no-repeat`;
+    setInterval(() => {
+        $(mask[index]).animate({opacity: 0}, 1000);
+        $(mask[index + 1 === urlArr.length ? 0 : index + 1]).animate({opacity: 1}, 1000);
+        index++;
+        index = index === urlArr.length ? 0 : index;
+        // mask.style.opacity = 1;
+        // mask[index].style.background = `url(${urlArr[index]}) no-repeat`;
+    }, 3000);
+
+</script>
+</body>
+</html>
